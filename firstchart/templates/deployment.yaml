@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  labels:
+    app: rameshtest
+spec:
+
+  selector:
+    matchLabels:
+       app: rameshtest
+  template:
+    metadata:
+      labels:
+        app: rameshtest
+    spec:
+      containers:
+        - name: {{ .Values.deployment.name }}
+          image: {{ .Values.deployment.image.name }}:{{ .Values.deployment.image.version }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.deployment.image.containerPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          
